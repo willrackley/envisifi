@@ -1,0 +1,14 @@
+* website opens to explaining the envisifi is
+    - words explaing the u can make a vision board for a device wallpaper etc. encouraging pics 
+    - then maybe a get started button that takes you to the page were you select your device type (phone, tablet, etc)
+
+* once user clicks get started 
+    - choose type of device  
+    - choose type of device type (ie. iphone 7, imac, ipad pro)
+    - choose grid orentations orientation
+    - once thats chosen then each grid plot is clickable where user can choose from own pics or stock pics
+    - download/ share
+    - make sure vision board has watermark 
+
+* things that need to be search
+    - how to divide selection into clickable areas and the correct dimensions
