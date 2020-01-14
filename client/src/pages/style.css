@@ -1,0 +1,17 @@
+.halfSizePlaceholder {
+    height: 50%;
+    width: auto;
+    cursor: pointer;
+    border-bottom: 3px solid rgb(63, 63, 63);
+}
+
+.halfSizePlaceholder:hover {
+    opacity: .5; 
+}
+
+#placeholder1 {
+    height: 100%;
+    width: auto;
+    /* cursor: pointer; */
+    /* //border-bottom: 3px solid rgb(63, 63, 63); */
+}
