@@ -1,17 +1,26 @@
-.halfSizePlaceholder {
+.halfSizePlaceholder1 {
     height: 50%;
     width: auto;
     cursor: pointer;
-    border-bottom: 3px solid rgb(63, 63, 63);
 }
 
-.halfSizePlaceholder:hover {
-    opacity: .5; 
+.halfSizePlaceholder2 {
+    height: 50%;
+    width: auto;
+    cursor: pointer;
 }
+
+/* .halfSizePlaceholder:hover {
+    opacity: .5; 
+} */
+
+
 
 #placeholder1 {
+    display: block;
     height: 100%;
     width: auto;
+    max-width: 100%;
     /* cursor: pointer; */
     /* //border-bottom: 3px solid rgb(63, 63, 63); */
 }

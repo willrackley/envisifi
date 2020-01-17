@@ -7,7 +7,11 @@ import Button from "react-bootstrap/Button"
 import { GiSmartphone} from "react-icons/gi";
 import { GiTablet} from "react-icons/gi";
 import { GiPc} from "react-icons/gi";
+import Cropper from 'cropperjs';
+import 'cropperjs/dist/cropper.css';
+import html2canvas from 'html2canvas';
 import "./style.css";
+
 
 class selectBoard extends Component {
     state = {
@@ -16,13 +20,14 @@ class selectBoard extends Component {
         phoneOutlinePortrait: <div></div>,
         placeHolder1Style: { backgroundImage:  "url('http://www.eco-trailer.co.uk/wp-content/uploads/2016/03/placeholder-blank.jpg')"},
         divImagePlaceholder1: "url('http://www.eco-trailer.co.uk/wp-content/uploads/2016/03/placeholder-blank.jpg')",
-        selectedFile: "http://www.racemph.com/wp-content/uploads/2016/09/profile-image-placeholder.png",
+        clickedPlaceholder: 0,
+        selectedFile: "",
         selectedRawFile: null,
         imageUploaded: false,
         test: "10px solid black"
     }
     
-
+    
     handleDeviceButtonClick =  buttonText => {
         this.setState({ deviceTypeButtonDiv: buttonText });
     }
@@ -33,19 +38,34 @@ class selectBoard extends Component {
         // this.setState({ imageUploaded: true });
         
         const file = event.target.files[0];
-        const reader = new FileReader();
-        const preview1 = document.getElementById('placeholder1');
+       
+        // const preview1 = document.getElementById('placeholder1');
+        // const preview2 = document.getElementById('placeholder2');
 
-        reader.addEventListener("load", () => {
-            // convert image file to base64 string
-            preview1.src = reader.result;
+        for (let i=1; i <= 5; i++) {
             
-            
-        }, false);
+            if (this.state.clickedPlaceholder === i) {
+                const reader = new FileReader();
+                reader.addEventListener("load", () => {
+                    // remove any cropper if user decides to change image
+                    let addedImg = document.getElementsByClassName(`halfSizePlaceholder${i}`)
+                    if (addedImg[0].childNodes[1]) {
+                        addedImg[0].removeChild(addedImg[0].childNodes[1])
+                    }
 
+                    document.getElementById(`placeholder${i}`).src = reader.result;
+                    let cropper = new Cropper(document.getElementById(`placeholder${i}`), {dragMode: "move", guides: false, background: false, viewMode: 0, autoCropArea: 0, cropBoxResizable: false,cropBoxMovable: false, autoCrop: true, modal: false, center: false, highlight: false })
+                    cropper.replace(document.getElementById(`placeholder${i}`).src)
+    
+                
+                }, false);
+                reader.readAsDataURL(file);
+            }
+        }
+        
         if (file) {
-            reader.readAsDataURL(file);
-           
+            
+            
         }
     }
 
@@ -54,17 +74,27 @@ class selectBoard extends Component {
         console.log(size);
         if (this.state.deviceTypeButtonDiv === "iphoneTypes"){
             this.setState({ phoneOutlinePortrait: 
-                <div className="mx-auto mb-5" style={{width: "200px", height: "300px", border: "8px solid #a9a9a9", background: "#F3F3F3", borderRadius: "25px", overflow: "hidden"}}> 
-                    
-                        {/* <img  height="50%" width="180" src="https://logjampresents.com/wp-content/uploads/2018/03/Blank-Placeholder-Social.jpg" alt=" placeholder" onClick={()=>{document.getElementById('fileInput1').click();}} style={{cursor: "pointer"}} ></img> */}
-                    <div className="halfSizePlaceholder" onClick={()=>{document.getElementById('fileInput1').click();}} >
+                <div className="mx-auto mb-5 phoneScreen" style={{width: "200px", height: "300px", border: "8px solid #a9a9a9", background: "#F3F3F3", borderRadius: "25px", overflow: "hidden"}}> 
+                
+                    <div className="halfSizePlaceholder1" onDoubleClick={()=>{document.getElementById('fileInput1').click(); this.setState({ clickedPlaceholder: 1})}} >
                         <img id="placeholder1" src='http://www.eco-trailer.co.uk/wp-content/uploads/2016/03/placeholder-blank.jpg' alt="placeholder"/>
                     </div>
-                
+
+                    <div className="halfSizePlaceholder2" onDoubleClick={()=>{document.getElementById('fileInput2').click(); this.setState({ clickedPlaceholder: 2})}} >
+                        <img id="placeholder2" src='http://www.eco-trailer.co.uk/wp-content/uploads/2016/03/placeholder-blank.jpg' alt="placeholder"/>
+                    </div>
               </div>
             })
         }
        
+    }
+
+    screenshot = () => {
+        html2canvas(document.getElementsByClassName('phoneScreen')[0], {height: 500}).then(function(canvas) {
+        document.getElementsByClassName('screenshotSec')[0].appendChild(canvas);
+        
+       });
+    
     }
 
     render() {
@@ -81,7 +111,7 @@ class selectBoard extends Component {
                 </div>
             </div>;
 
-        //let editSection = <div></div>
+        
 
         if (this.state.deviceTypeButtonDiv === "deviceType"){
             deviceButtons = initialButtonScreen
@@ -137,17 +167,27 @@ class selectBoard extends Component {
                     </div>
                     {deviceButtons}
                 </Jumbotron>
-
-                <div>
-                    <div className="form-group">
-                        <input id="fileInput1" className="form-control text-center" type="file"
-                        onChange={this.selectImgFile}
-                        accept="image/*" style={{display: "none"}}/>
-                    </div> 
-                    {this.state.phoneOutlinePortrait}
-                    
-
+                <div className="row">
+                    <div className="col-6">
+                        <div className="editSection">
+                            <div className="form-group">
+                                <input id="fileInput1" className="form-control text-center" type="file"
+                                onChange={this.selectImgFile}
+                                accept="image/*" style={{display: "none"}}/>
+                                <input id="fileInput2" className="form-control text-center" type="file"
+                                onChange={this.selectImgFile}
+                                accept="image/*" style={{display: "none"}}/>
+                            </div> 
+                            {this.state.phoneOutlinePortrait}
+                            <Button onClick={() => {this.screenshot()}}>download</Button>
+                        </div>
+                    </div>
+                    <div className="col-6">
+                        <div className="screenshotSec"></div>
+                    </div>
                 </div>
+                
+                
             </div>
         )
     }
