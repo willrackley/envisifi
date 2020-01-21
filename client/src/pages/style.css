@@ -10,6 +10,8 @@
     cursor: pointer;
 }
 
+
+
 /* .halfSizePlaceholder:hover {
     opacity: .5; 
 } */
@@ -21,6 +23,7 @@
     height: 100%;
     width: auto;
     max-width: 100%;
+    opacity: .8;
     /* cursor: pointer; */
     /* //border-bottom: 3px solid rgb(63, 63, 63); */
 }
