@@ -5,7 +5,9 @@ import NavDropdown from "react-bootstrap/NavDropdown"
 import Jumbotron from "react-bootstrap/Jumbotron"
 import Spinner from "react-bootstrap/Spinner"
 import Button from "react-bootstrap/Button"
-import { GiSmartphone} from "react-icons/gi";
+import { MdArrowBack } from "react-icons/md";
+import { iphoneTypes } from "../Components/PhoneTypes"
+import ButtonDisplay from "../Components/ButtonDisplay"
 import Cropper from 'cropperjs';
 import 'cropperjs/dist/cropper.css';
 import html2canvas from 'html2canvas';
@@ -22,9 +24,12 @@ class selectBoard extends Component {
         clickedPlaceholder: 0,
         size: null,
         base64Download: "",
-        isLoading: false
+        isLoading: false,
     }
     
+    componentDidMount() {
+        console.log(iphoneTypes)
+    }
     
     handleDeviceButtonClick =  buttonText => {
         this.setState({ deviceTypeButtonDiv: buttonText });
@@ -120,58 +125,62 @@ class selectBoard extends Component {
     render() {
         let deviceButtons = <div></div>
         let backButton = <div></div>
-        let initialButtonScreen = 
-            <div>
-                <div className="text-center"> Where is your vision board going to be seen?</div>
+        // let initialButtonScreen = 
+        //     <div>
+        //         <div className="text-center"> Where is your vision board going to be seen?</div>
 
-                <div className="text-center">
-                    <Button className="m-2" onClick={() => this.handleDeviceButtonClick("PHONE")}> PHONE <br/><GiSmartphone size="10em"/> </Button>
-                    {/* <Button className="m-2"> TABLET<br/> <GiTablet size="10em"/> </Button>
-                    <Button className="m-2"> COMPUTER <br/> <GiPc size="10em"/> </Button> */}
-                </div>
-            </div>;
+        //         <div className="text-center">
+        //             <Button className="m-2" onClick={() => this.handleDeviceButtonClick("PHONE")}> PHONE <br/><GiSmartphone size="10em"/> </Button>
+        //             {/* <Button className="m-2"> TABLET<br/> <GiTablet size="10em"/> </Button>
+        //             <Button className="m-2"> COMPUTER <br/> <GiPc size="10em"/> </Button> */}
+        //         </div>
+        //     </div>;
 
-        
-
+        //------choice screen for choosing device brand------//
         if (this.state.deviceTypeButtonDiv === "deviceType"){
-            deviceButtons = initialButtonScreen
+            //deviceButtons = initialButtonScreen
         } else if (this.state.deviceTypeButtonDiv === "PHONE") {
-            backButton = <Button onClick={() => this.handleDeviceButtonClick("deviceType")}>Back</Button>;
-            deviceButtons = <div>
-                                 <div className="text-center"> Which Type of Phone?</div>
-                                 <div className="text-center">
+            
+            deviceButtons = <div className=" mx-auto" >
+                                 <div className="text-center jumbotron_text"> <h1>What type of phone do you have?</h1></div>
+
+                                 <div className="" style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
+                                    <span>
+                                        <Button 
+                                        variant="none" 
+                                        className="m-2 buttonLogo" 
+                                        style={{ width: "200px", height: "200px",backgroundImage: "url(https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg)", backgroundPosition: "center", backgroundSize: "contain", backgroundRepeat: "no-repeat", filter: "invert(1)"}} 
+                                        onClick={() => this.handleDeviceButtonClick("iphoneTypes")}>
+                                            <span className="iphoneText">iphone</span>
+                                        </Button>
+                                    </span>
+                                    
+                                    <span>
                                     <Button 
                                     variant="none" 
-                                    className="m-2" 
-                                    style={{height: "12em", width: "8em", backgroundImage: "url(https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone11-purple-select-2019?wid=940&hei=1112&fmt=png-alpha&qlt=80&.v=1566960958082)", backgroundPosition: "center", backgroundSize: "cover", backgroundRepeat: "no-repeat"}} 
-                                    onClick={() => this.handleDeviceButtonClick("iphoneTypes")}>
-                                        <span className="text-dark">iphone</span>
+                                    className="m-2 buttonLogo" 
+                                    style={{width: "230px", height: "200px", backgroundImage: "url(http://pngimg.com/uploads/samsung_logo/samsung_logo_PNG16.png)", backgroundPosition: "center", backgroundSize: "contain", backgroundRepeat: "no-repeat", filter: "invert(1)"}}>
+                                        <div className="samsungText">samsung</div>
                                     </Button>
-
-                                    <Button variant="none" className="m-2 text-dark" style={{height: "12em", width: "8em", backgroundImage: "url(https://images.samsung.com/is/image/samsung/p5/ph/smartphones/ph-pcd-galaxy-a50.png?$ORIGIN_PNG$", backgroundPosition: "center", backgroundSize: "cover", backgroundRepeat: "no-repeat"}}> <span >SAMSUNG</span> </Button>
+                                    </span>
+                                    
                                 </div>
                             </div>
         } else if (this.state.deviceTypeButtonDiv === "iphoneTypes") {
             
-            backButton = <Button onClick={() => this.handleDeviceButtonClick("PHONE")}>Back</Button>;
+            //-----button display of phone types-----//
+
+            backButton = <Button onClick={() => this.handleDeviceButtonClick("PHONE")}><MdArrowBack /></Button>;
 
             if(this.state.isLoading){
-                deviceButtons = <div className="text-center"><Spinner animation="border" /></div>
+                deviceButtons = <div className="text-center deviceButtons"><Spinner animation="border" /></div>
             } else {
-                deviceButtons = <div className="text-center">
-                                <Button 
-                                className="m-2" 
-                                onClick={() => {this.handleDeviceEditSection("Xs Max", 414, 896)}}>
-                                    Xs Max
-                                </Button>
-
-                                <Button className="m-2" onClick={() => {this.handleDeviceEditSection("11 Pro Max", 414, 896)}}>11 Pro Max</Button>
-
-
-                                <Button className="m-2" onClick={() => {this.handleDeviceEditSection("11",828, 1792)}}>11</Button>
-
-                                <Button className="m-2" onClick={() => {this.handleDeviceEditSection("Xr", 828, 1792)}}>Xr</Button>
-                            </div>
+                deviceButtons = <div className="text-center deviceButtons mx-auto">
+                                    <ButtonDisplay 
+                                    mapped_phone_types={iphoneTypes}
+                                    handleButtonList={this.handleDeviceEditSection}
+                                    />
+                                </div>
             }
             
         }
@@ -180,8 +189,8 @@ class selectBoard extends Component {
 
         return (
             <div>
-                <Navbar bg="light" expand="lg">
-                    <Navbar.Brand href="#home">Envisifi</Navbar.Brand>
+                <Navbar className="nav" bg="light" expand="lg">
+                    <Navbar.Brand className="navbar_title" href="#home">Envisifi</Navbar.Brand>
                         <Navbar.Toggle aria-controls="basic-navbar-nav" />
                         <Navbar.Collapse id="basic-navbar-nav">
                             <Nav className="mr-auto">
@@ -198,7 +207,7 @@ class selectBoard extends Component {
                     </Navbar.Collapse>
                 </Navbar>
                 
-                <Jumbotron>
+                <Jumbotron id="selectBoardJumbotron">
                     <div>
                         {backButton}
                     </div>

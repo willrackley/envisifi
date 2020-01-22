@@ -10,13 +10,37 @@
     cursor: pointer;
 }
 
+.samsungText {
+    opacity: 0;  
+}
 
+.iphoneText {
+    opacity: 0; 
+}
 
-/* .halfSizePlaceholder:hover {
-    opacity: .5; 
-} */
+.jumbotron_text {
+    font-family: 'Noto Sans', sans-serif;
+    color: #fff;
+}
 
+.navbar_title {
+    
+    color: rgb(241, 151, 54) !important;
+}
 
+#selectBoardJumbotron {
+    background-image: url("../images/orangeRedGradient.png") !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+}
+
+.deviceButtons {
+    width: 500px;
+}
+
+.buttonLogo:hover {
+    filter: brightness(50%) !important;
+}
 
 #placeholder1 {
     display: block;
