@@ -1,0 +1,12 @@
+#buttonDisplayBtn:hover {
+    border: 5px solid #3479ce !important;
+}
+
+#buttonDisplayBtn {
+    /* background-image: url(../../images/blueGradient.png) !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+    filter: brightness(95%) !important; */
+    background: #ffffff;
+}
+

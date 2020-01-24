@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav"
-import NavDropdown from "react-bootstrap/NavDropdown"
+// import Nav from "react-bootstrap/Nav"
+// import NavDropdown from "react-bootstrap/NavDropdown"
 import Jumbotron from "react-bootstrap/Jumbotron"
 import Spinner from "react-bootstrap/Spinner"
 import Button from "react-bootstrap/Button"
@@ -15,6 +15,9 @@ import "./style.css";
 
 
 class selectBoard extends Component {
+
+    scrollRef = React.createRef();
+
     state = {
         deviceTypeButtonDiv: "PHONE",
         editSection: "none",
@@ -23,17 +26,21 @@ class selectBoard extends Component {
         divImagePlaceholder1: "url('http://www.eco-trailer.co.uk/wp-content/uploads/2016/03/placeholder-blank.jpg')",
         clickedPlaceholder: 0,
         size: null,
+        phoneSizeChosen: false,
         base64Download: "",
         isLoading: false,
     }
     
-    componentDidMount() {
-        console.log(iphoneTypes)
-    }
     
     handleDeviceButtonClick =  buttonText => {
         this.setState({ deviceTypeButtonDiv: buttonText });
     }
+
+    handleScrollToElement(event) {
+        if (this.state.phoneSizeChosen){
+          this.scrollRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }
+      }
 
     selectImgFile = event => {
 
@@ -63,7 +70,7 @@ class selectBoard extends Component {
 
     handleDeviceEditSection = async (device, width, height)=> {
 
-        await this.setState({size: { device: {device: device, width: width, height: height} }, phoneOutlinePortrait: <div></div>, isLoading: true });
+        await this.setState({size: { device: {device: device, width: width, height: height} }, phoneOutlinePortrait: <div></div>, isLoading: true,phoneSizeChosen: false });
 
         await new Promise((resolve, reject) => setTimeout(resolve, 500));
 
@@ -79,8 +86,10 @@ class selectBoard extends Component {
                         <img id="placeholder2" src='http://www.eco-trailer.co.uk/wp-content/uploads/2016/03/placeholder-blank.jpg' alt="placeholder"/>
                     </div>
               </div>,
-              isLoading: false
+              isLoading: false,
+              phoneSizeChosen: true
             })
+            this.handleScrollToElement()
         }
        
     }
@@ -142,10 +151,10 @@ class selectBoard extends Component {
         } else if (this.state.deviceTypeButtonDiv === "PHONE") {
             
             deviceButtons = <div className=" mx-auto" >
-                                 <div className="text-center jumbotron_text"> <h1>What type of phone do you have?</h1></div>
+                                 <div className="text-center jumbotron_text mb-5"> <h1>What type of phone do you have?</h1></div>
 
-                                 <div className="" style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
-                                    <span>
+                                 <div className="row text-center w-75 mx-auto" >
+                                    <div className="col-md-4" style={{}}>
                                         <Button 
                                         variant="none" 
                                         className="m-2 buttonLogo" 
@@ -153,34 +162,68 @@ class selectBoard extends Component {
                                         onClick={() => this.handleDeviceButtonClick("iphoneTypes")}>
                                             <span className="iphoneText">iphone</span>
                                         </Button>
-                                    </span>
+                                    </div>
                                     
-                                    <span>
-                                    <Button 
-                                    variant="none" 
-                                    className="m-2 buttonLogo" 
-                                    style={{width: "230px", height: "200px", backgroundImage: "url(http://pngimg.com/uploads/samsung_logo/samsung_logo_PNG16.png)", backgroundPosition: "center", backgroundSize: "contain", backgroundRepeat: "no-repeat", filter: "invert(1)"}}>
-                                        <div className="samsungText">samsung</div>
-                                    </Button>
-                                    </span>
-                                    
+                                    <div className="col-md-4">
+                                        <Button 
+                                        variant="none" 
+                                        className="m-2 buttonLogo" 
+                                        style={{width: "200px", height: "200px", backgroundImage: "url(http://pngimg.com/uploads/samsung_logo/samsung_logo_PNG16.png)", backgroundPosition: "center", backgroundSize: "contain", backgroundRepeat: "no-repeat", filter: "invert(1)"}}>
+                                            <div className="samsungText">samsung</div>
+                                        </Button>
+                                    </div>
+
+                                    <div className="col-md-4">
+                                        <Button 
+                                        variant="none" 
+                                        className="m-2 buttonLogo" 
+                                        style={{width: "200px", height: "200px", backgroundImage: "url(http://pngimg.com/uploads/lg_logo/lg_logo_PNG3.png)", backgroundPosition: "center", backgroundSize: "contain", backgroundRepeat: "no-repeat", filter: "invert(1)"}}>
+                                            <div className="samsungText">LG</div>
+                                        </Button>
+                                    </div>
                                 </div>
                             </div>
         } else if (this.state.deviceTypeButtonDiv === "iphoneTypes") {
             
             //-----button display of phone types-----//
 
-            backButton = <Button onClick={() => this.handleDeviceButtonClick("PHONE")}><MdArrowBack /></Button>;
+            backButton = 
+                <Button 
+                className="mb-2"
+                variant="none"
+                onClick={() => this.handleDeviceButtonClick("PHONE")}
+                >
+                    <MdArrowBack
+                    size="60"
+                    style={{
+                        color: "#ffffff",
+                        border: "3px solid #ffffff",
+                        borderRadius: "50px",
+                        padding: "10px",
+                    }}
+                    />
+
+                </Button>;
 
             if(this.state.isLoading){
-                deviceButtons = <div className="text-center deviceButtons"><Spinner animation="border" /></div>
+                deviceButtons = 
+                <span className="text-center mb-5">
+                    <div>
+                        <h1 className="text-white mb-5">What type of iphone do you have?</h1>
+                    </div>
+                    <div className="mx-auto d-flex justify-content-center deviceButtons"><Spinner style={{width: "8rem", height: "8rem"}} variant="primary" animation="border" /></div>
+                </span>
             } else {
-                deviceButtons = <div className="text-center deviceButtons mx-auto">
-                                    <ButtonDisplay 
-                                    mapped_phone_types={iphoneTypes}
-                                    handleButtonList={this.handleDeviceEditSection}
-                                    />
-                                </div>
+                deviceButtons = 
+                <span className="text-center">
+                    <div><h1 className="text-white">What type of iphone do you have? </h1></div>
+                    <div className="text-center deviceButtons p-5 mx-auto"  style={{width: "50%"}}>
+                        <ButtonDisplay 
+                        mapped_phone_types={iphoneTypes}
+                        handleButtonList={this.handleDeviceEditSection}
+                        />
+                    </div>
+                </span>
             }
             
         }
@@ -190,8 +233,8 @@ class selectBoard extends Component {
         return (
             <div>
                 <Navbar className="nav" bg="light" expand="lg">
-                    <Navbar.Brand className="navbar_title" href="#home">Envisifi</Navbar.Brand>
-                        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Brand className="navbar_title" href="/">Envisifi</Navbar.Brand>
+                        {/* <Navbar.Toggle aria-controls="basic-navbar-nav" />
                         <Navbar.Collapse id="basic-navbar-nav">
                             <Nav className="mr-auto">
                             <Nav.Link href="#home">Home</Nav.Link>
@@ -204,7 +247,7 @@ class selectBoard extends Component {
                                 <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
                             </NavDropdown>
                             </Nav>
-                    </Navbar.Collapse>
+                    </Navbar.Collapse> */}
                 </Navbar>
                 
                 <Jumbotron id="selectBoardJumbotron">
@@ -214,7 +257,7 @@ class selectBoard extends Component {
                     {deviceButtons}
                 </Jumbotron>
 
-                <div className="editSection">
+                <div ref={this.scrollRef} className="editSection">
                     {this.state.phoneOutlinePortrait}   
                     <div className="form-group">
                         <input id="fileInput1" className="form-control text-center" type="file"
