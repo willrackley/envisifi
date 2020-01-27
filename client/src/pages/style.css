@@ -1,13 +1,24 @@
+html {
+    scroll-behavior: smooth;
+}
+
+
 .halfSizePlaceholder1 {
     height: 50%;
     width: auto;
     cursor: pointer;
+    border: 3px solid #ffffff;
+    overflow: hidden;
 }
 
 .halfSizePlaceholder2 {
     height: 50%;
     width: auto;
     cursor: pointer;
+    border-left: 3px solid #ffffff;
+    border-right: 3px solid #ffffff;
+    border-bottom: 3px solid #ffffff;
+    overflow: hidden;
 }
 
 .samsungText {
@@ -24,7 +35,6 @@
 }
 
 .navbar_title {
-    
     color: rgb(241, 151, 54) !important;
 }
 
@@ -42,7 +52,17 @@
 }
 
 .buttonLogo:hover {
-    filter: drop-shadow(30px 10px 4px #4444dd) !important;  
+    filter: drop-shadow(30px 10px 4px #4444dd) !important;
+    
+    /* //transition: all 0.5s ease-out !important;   */
+}
+
+.editSection {
+    background-image: url(../images/blueGradient.png);
+    background-repeat: no-repeat !important;
+    background-size: cover !important; 
+    display: inline-block;
+    width: 100%;
 }
 
 #placeholder1 {

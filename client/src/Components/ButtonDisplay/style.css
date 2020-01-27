@@ -8,5 +8,6 @@
     background-repeat: no-repeat !important;
     filter: brightness(95%) !important; */
     background: #ffffff;
+    transition: .4s ease; 
 }
 

@@ -29,11 +29,13 @@ class selectBoard extends Component {
         phoneSizeChosen: false,
         base64Download: "",
         isLoading: false,
+        editSectionDisplay: "none",
+        collageType: <div></div>
     }
     
     
     handleDeviceButtonClick =  buttonText => {
-        this.setState({ deviceTypeButtonDiv: buttonText });
+        this.setState({ deviceTypeButtonDiv: buttonText, editSectionDisplay: "none" });
     }
 
     handleScrollToElement(event) {
@@ -70,13 +72,13 @@ class selectBoard extends Component {
 
     handleDeviceEditSection = async (device, width, height)=> {
 
-        await this.setState({size: { device: {device: device, width: width, height: height} }, phoneOutlinePortrait: <div></div>, isLoading: true,phoneSizeChosen: false });
+        await this.setState({size: { device: {device: device, width: width, height: height} }, phoneOutlinePortrait: <div></div>, isLoading: true,phoneSizeChosen: false, editSectionDisplay: "none" });
 
         await new Promise((resolve, reject) => setTimeout(resolve, 500));
 
         if (this.state.deviceTypeButtonDiv === "iphoneTypes"){
             this.setState({ phoneOutlinePortrait: 
-                <div className="mx-auto phoneScreen" style={{width: this.state.size.device.width/2, height: this.state.size.device.height/2, background: "#F3F3F3",  overflow: "hidden", display: "block"}}> 
+                <div className="mx-auto mt-5 phoneScreen" style={{width: this.state.size.device.width/2, height: this.state.size.device.height/2, background: "#F3F3F3",  overflow: "hidden"}}> 
                 
                     <div className="halfSizePlaceholder1" onDoubleClick={()=>{document.getElementById('fileInput1').click(); this.setState({ clickedPlaceholder: 1})}} >
                         <img id="placeholder1" src='http://www.eco-trailer.co.uk/wp-content/uploads/2016/03/placeholder-blank.jpg' alt="placeholder"/>
@@ -87,7 +89,9 @@ class selectBoard extends Component {
                     </div>
               </div>,
               isLoading: false,
-              phoneSizeChosen: true
+              phoneSizeChosen: true,
+              editSectionDisplay: "inline-block",
+              width: "100%"
             })
             this.handleScrollToElement()
         }
@@ -257,7 +261,8 @@ class selectBoard extends Component {
                     {deviceButtons}
                 </Jumbotron>
 
-                <div ref={this.scrollRef} className="editSection">
+                <div ref={this.scrollRef} className="editSection" style={{display: this.state.editSectionDisplay}}>
+                    {this.state.collageType}
                     {this.state.phoneOutlinePortrait}   
                     <div className="form-group">
                         <input id="fileInput1" className="form-control text-center" type="file"
