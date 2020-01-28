@@ -6,8 +6,10 @@ import Jumbotron from "react-bootstrap/Jumbotron"
 import Spinner from "react-bootstrap/Spinner"
 import Button from "react-bootstrap/Button"
 import { MdArrowBack } from "react-icons/md";
-import { iphoneTypes } from "../Components/PhoneTypes"
-import ButtonDisplay from "../Components/ButtonDisplay"
+import { iphoneTypes } from "../Components/PhoneTypes";
+import ButtonDisplay from "../Components/ButtonDisplay";
+import {TwoPicCollage} from "../Components/CollageOptions";
+import {ThreePicCollage} from "../Components/CollageOptions";
 import Cropper from 'cropperjs';
 import 'cropperjs/dist/cropper.css';
 import html2canvas from 'html2canvas';
@@ -79,19 +81,34 @@ class selectBoard extends Component {
         if (this.state.deviceTypeButtonDiv === "iphoneTypes"){
             this.setState({ phoneOutlinePortrait: 
                 <div className="mx-auto mt-5 phoneScreen" style={{width: this.state.size.device.width/2, height: this.state.size.device.height/2, background: "#F3F3F3",  overflow: "hidden"}}> 
-                
-                    <div className="halfSizePlaceholder1" onDoubleClick={()=>{document.getElementById('fileInput1').click(); this.setState({ clickedPlaceholder: 1})}} >
-                        <img id="placeholder1" src='http://www.eco-trailer.co.uk/wp-content/uploads/2016/03/placeholder-blank.jpg' alt="placeholder"/>
+                    <TwoPicCollage
+                    onClick1 = {() =>{document.getElementById('fileInput1').click(); this.setState({ clickedPlaceholder: 1})}}
+                    onClick2 = {() =>{document.getElementById('fileInput2').click(); this.setState({ clickedPlaceholder: 2})}}
+                    className1= "halfSizePlaceholder1"
+                    className2= "halfSizePlaceholder2"
+                    />
+              </div>,
+              collageType:
+              //----- collage options -----//
+                <div className="mt-3 p-3 w-100" id="collageOptionDiv" style={{}}>
+
+                    <div className="collOptItem mx-3" style={{display: "inline-block", verticalAlign: "middle"}}>
+                        <TwoPicCollage 
+                        img1Style= {{width: 40, height: 50, border: "2px solid #ffffff" }}
+                        img2Style= {{width: 40, height: 50, border: "2px solid #ffffff" }}/>
                     </div>
 
-                    <div className="halfSizePlaceholder2" onDoubleClick={()=>{document.getElementById('fileInput2').click(); this.setState({ clickedPlaceholder: 2})}} >
-                        <img id="placeholder2" src='http://www.eco-trailer.co.uk/wp-content/uploads/2016/03/placeholder-blank.jpg' alt="placeholder"/>
+                    <div className="collOptItem mx-3" style={{display: "inline-block", verticalAlign: "middle"}}>
+                        <ThreePicCollage 
+                        img1Style= {{width: 40, height: 33.3, border: "2px solid #ffffff" }}
+                        img2Style= {{width: 40, height: 33.3, border: "2px solid #ffffff" }}
+                        img3Style= {{width: 40, height: 33.3, border: "2px solid #ffffff" }}/>
                     </div>
-              </div>,
+                </div>,
               isLoading: false,
               phoneSizeChosen: true,
               editSectionDisplay: "inline-block",
-              width: "100%"
+              
             })
             this.handleScrollToElement()
         }
@@ -262,7 +279,10 @@ class selectBoard extends Component {
                 </Jumbotron>
 
                 <div ref={this.scrollRef} className="editSection" style={{display: this.state.editSectionDisplay}}>
-                    {this.state.collageType}
+                    <div className="px-5">
+                        {this.state.collageType}    
+                    </div>
+                    
                     {this.state.phoneOutlinePortrait}   
                     <div className="form-group">
                         <input id="fileInput1" className="form-control text-center" type="file"

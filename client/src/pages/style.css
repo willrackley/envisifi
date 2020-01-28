@@ -3,23 +3,6 @@ html {
 }
 
 
-.halfSizePlaceholder1 {
-    height: 50%;
-    width: auto;
-    cursor: pointer;
-    border: 3px solid #ffffff;
-    overflow: hidden;
-}
-
-.halfSizePlaceholder2 {
-    height: 50%;
-    width: auto;
-    cursor: pointer;
-    border-left: 3px solid #ffffff;
-    border-right: 3px solid #ffffff;
-    border-bottom: 3px solid #ffffff;
-    overflow: hidden;
-}
 
 .samsungText {
     opacity: 0;  
@@ -46,15 +29,10 @@ html {
 
 .deviceButtons {
     width: 500px;
-    /* background-image: url("../images/blueGradient.png") !important;
-    background-repeat: no-repeat !important;
-    background-size: cover !important; */
 }
 
 .buttonLogo:hover {
     filter: drop-shadow(30px 10px 4px #4444dd) !important;
-    
-    /* //transition: all 0.5s ease-out !important;   */
 }
 
 .editSection {
@@ -65,12 +43,13 @@ html {
     width: 100%;
 }
 
-#placeholder1 {
-    display: block;
-    height: 100%;
-    width: auto;
-    max-width: 100%;
-    opacity: .8;
-    /* cursor: pointer; */
-    /* //border-bottom: 3px solid rgb(63, 63, 63); */
+#collageOptionDiv {
+    display: inline-block;
+    border: 2px solid #ffffff;
 }
+
+.collOptItem:hover {
+    cursor: pointer;
+}
+
+

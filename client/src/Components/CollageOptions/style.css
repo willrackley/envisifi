@@ -1,0 +1,19 @@
+.halfSizePlaceholder1 {
+    height: 50%;
+    width: auto;
+    cursor: pointer;
+    border: 3px solid #ffffff;
+    overflow: hidden;
+}
+
+.halfSizePlaceholder2 {
+    height: 50%;
+    width: auto;
+    cursor: pointer;
+    border-left: 3px solid #ffffff;
+    border-right: 3px solid #ffffff;
+    border-bottom: 3px solid #ffffff;
+    overflow: hidden;
+}
+
+
