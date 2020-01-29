@@ -30,9 +30,11 @@ class selectBoard extends Component {
         size: null,
         phoneSizeChosen: false,
         base64Download: "",
-        isLoading: false,
+        isLoadingPhoneOptions: false,
+        isLoadingEditSection: false,
         editSectionDisplay: "none",
-        collageType: <div></div>
+        collageType: <div></div>,
+        collageOptionNum: 2
     }
     
     
@@ -51,16 +53,13 @@ class selectBoard extends Component {
         const file = event.target.files[0];
         
         for (let i=1; i <= 5; i++) {
-            
+           
             if (this.state.clickedPlaceholder === i) {
                 const reader = new FileReader();
                 
                 reader.addEventListener("load", () => {
                     // remove any cropper if user decides to change image
-                    let addedImg = document.getElementsByClassName(`halfSizePlaceholder${i}`)
-                    if (addedImg[0].childNodes[1]) {
-                        addedImg[0].removeChild(addedImg[0].childNodes[1])
-                    }
+                    
 
                     document.getElementById(`placeholder${i}`).src = reader.result;
                     let cropper = new Cropper(document.getElementById(`placeholder${i}`), {dragMode: "move", guides: false, background: false, viewMode: 0, autoCropArea: 0, cropBoxResizable: false,cropBoxMovable: false, autoCrop: true, modal: false, center: false, highlight: false })
@@ -72,40 +71,42 @@ class selectBoard extends Component {
         } 
     }
 
-    handleDeviceEditSection = async (device, width, height)=> {
+    handleDeviceEditSection = async (device, width, height) => {
 
-        await this.setState({size: { device: {device: device, width: width, height: height} }, phoneOutlinePortrait: <div></div>, isLoading: true,phoneSizeChosen: false, editSectionDisplay: "none" });
+        await this.setState({size: { device: {device: device, width: width, height: height} }, phoneOutlinePortrait: <div></div>, isLoadingPhoneOptions: true,phoneSizeChosen: false, editSectionDisplay: "none", collageOptionNum: 2});
 
         await new Promise((resolve, reject) => setTimeout(resolve, 500));
 
-        if (this.state.deviceTypeButtonDiv === "iphoneTypes"){
+        if (this.state.deviceTypeButtonDiv !== "PHONE"){
             this.setState({ phoneOutlinePortrait: 
                 <div className="mx-auto mt-5 phoneScreen" style={{width: this.state.size.device.width/2, height: this.state.size.device.height/2, background: "#F3F3F3",  overflow: "hidden"}}> 
                     <TwoPicCollage
                     onClick1 = {() =>{document.getElementById('fileInput1').click(); this.setState({ clickedPlaceholder: 1})}}
                     onClick2 = {() =>{document.getElementById('fileInput2').click(); this.setState({ clickedPlaceholder: 2})}}
-                    className1= "halfSizePlaceholder1"
-                    className2= "halfSizePlaceholder2"
+                    id1="placeholder1"
+                    id2="placeholder2"
+                    className1= "collage2"
+                    className2= "collage2"
                     />
               </div>,
               collageType:
               //----- collage options -----//
                 <div className="mt-3 p-3 w-100" id="collageOptionDiv" style={{}}>
 
-                    <div className="collOptItem mx-3" style={{display: "inline-block", verticalAlign: "middle"}}>
+                    <div className="collOptItem mx-3" style={{display: "inline-block", verticalAlign: "middle"}} onClick={() => this.handleCollageOption(2)}>
                         <TwoPicCollage 
                         img1Style= {{width: 40, height: 50, border: "2px solid #ffffff" }}
                         img2Style= {{width: 40, height: 50, border: "2px solid #ffffff" }}/>
                     </div>
 
-                    <div className="collOptItem mx-3" style={{display: "inline-block", verticalAlign: "middle"}}>
+                    <div className="collOptItem mx-3" style={{display: "inline-block", verticalAlign: "middle"}} onClick={() => this.handleCollageOption(3)}>
                         <ThreePicCollage 
                         img1Style= {{width: 40, height: 33.3, border: "2px solid #ffffff" }}
                         img2Style= {{width: 40, height: 33.3, border: "2px solid #ffffff" }}
                         img3Style= {{width: 40, height: 33.3, border: "2px solid #ffffff" }}/>
                     </div>
                 </div>,
-              isLoading: false,
+              isLoadingPhoneOptions: false,
               phoneSizeChosen: true,
               editSectionDisplay: "inline-block",
               
@@ -113,6 +114,49 @@ class selectBoard extends Component {
             this.handleScrollToElement()
         }
        
+    }
+
+    handleCollageOption = async (collageNum) => {
+        
+        await this.setState({ collageOptionNum: collageNum, isLoadingEditSection: true});
+
+        await new Promise((resolve, reject) => setTimeout(resolve, 500));
+        
+        switch(this.state.collageOptionNum > 1) {
+            case (this.state.collageOptionNum === 2):
+                this.setState({ phoneOutlinePortrait: 
+                    <div className="mx-auto mt-5 phoneScreen" style={{width: this.state.size.device.width/2, height: this.state.size.device.height/2, background: "#F3F3F3",  overflow: "hidden"}}> 
+                        <TwoPicCollage
+                        onClick1 = {() =>{document.getElementById('fileInput1').click(); this.setState({ clickedPlaceholder: 1})}}
+                        onClick2 = {() =>{document.getElementById('fileInput2').click(); this.setState({ clickedPlaceholder: 2})}}
+                        className1= "collage2"
+                        className2= "collage2"
+                        id1="placeholder1"
+                        id2="placeholder2"
+                        />
+                </div>,
+                isLoadingEditSection: false })
+              break;
+            case (this.state.collageOptionNum === 3):
+                this.setState({ phoneOutlinePortrait: 
+                    <div className="mx-auto mt-5 phoneScreen" style={{width: this.state.size.device.width/2, height: this.state.size.device.height/2, background: "#F3F3F3",  overflow: "hidden"}}> 
+                        <ThreePicCollage
+                        onClick1 = {() =>{document.getElementById('fileInput1').click(); this.setState({ clickedPlaceholder: 1})}}
+                        onClick2 = {() =>{document.getElementById('fileInput2').click(); this.setState({ clickedPlaceholder: 2})}}
+                        onClick3 = {() =>{document.getElementById('fileInput3').click(); this.setState({ clickedPlaceholder: 3})}}
+                        className1= "collage3"
+                        className2= "collage3"
+                        className3= "collage3 border-bottom-0"
+                        id1="placeholder1"
+                        id2="placeholder2"
+                        id3="placeholder3"
+                        />
+                </div> ,
+                isLoadingEditSection: false });
+              break;
+            default:
+              return;
+          }
     }
 
     screenshot = async () => {
@@ -226,7 +270,7 @@ class selectBoard extends Component {
 
                 </Button>;
 
-            if(this.state.isLoading){
+            if(this.state.isLoadingPhoneOptions){
                 deviceButtons = 
                 <span className="text-center mb-5">
                     <div>
@@ -282,13 +326,16 @@ class selectBoard extends Component {
                     <div className="px-5">
                         {this.state.collageType}    
                     </div>
-                    
-                    {this.state.phoneOutlinePortrait}   
+                    {this.state.isLoadingEditSection ? <div className="mx-auto d-flex justify-content-center  mt-5"><Spinner style={{width: "8rem", height: "8rem"}} variant="primary" animation="border" /></div> : this.state.phoneOutlinePortrait}
+                       
                     <div className="form-group">
                         <input id="fileInput1" className="form-control text-center" type="file"
                         onChange={this.selectImgFile}
                         accept="image/*" style={{display: "none"}}/>
                         <input id="fileInput2" className="form-control text-center" type="file"
+                        onChange={this.selectImgFile}
+                        accept="image/*" style={{display: "none"}}/>
+                        <input id="fileInput3" className="form-control text-center" type="file"
                         onChange={this.selectImgFile}
                         accept="image/*" style={{display: "none"}}/>
                     </div> 
