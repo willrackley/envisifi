@@ -43,7 +43,9 @@ html {
 
 #collageOptionDiv {
     display: inline-block;
-    border: 2px solid #ffffff;
+    border: 3px solid #ffffffa1 ;
+    border-radius: 20px;
+    overflow: scroll;
 }
 
 .collOptItem:hover {

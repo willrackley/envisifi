@@ -13,3 +13,18 @@
     border: 3px solid #ffffff;
     overflow: hidden;
 }
+
+.collage4 {
+    height: 50%;
+    width: 50%;
+    float: left;
+    cursor: pointer;
+    border: 3px solid #ffffff;
+    overflow: hidden;
+}
+
+.collage4Float {
+    float: left;
+    height: 50%;
+    width: 50%;
+}

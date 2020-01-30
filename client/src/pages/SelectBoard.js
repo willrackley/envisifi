@@ -8,8 +8,10 @@ import Button from "react-bootstrap/Button"
 import { MdArrowBack } from "react-icons/md";
 import { iphoneTypes } from "../Components/PhoneTypes";
 import ButtonDisplay from "../Components/ButtonDisplay";
-import {TwoPicCollage} from "../Components/CollageOptions";
-import {ThreePicCollage} from "../Components/CollageOptions";
+import { TwoPicCollage } from "../Components/CollageOptions";
+import { ThreePicCollage } from "../Components/CollageOptions";
+import { FourPicCollage } from "../Components/CollageOptions";
+import { FivePicCollage } from "../Components/CollageOptions";
 import Cropper from 'cropperjs';
 import 'cropperjs/dist/cropper.css';
 import html2canvas from 'html2canvas';
@@ -105,6 +107,33 @@ class selectBoard extends Component {
                         img2Style= {{width: 40, height: 33.3, border: "2px solid #ffffff" }}
                         img3Style= {{width: 40, height: 33.3, border: "2px solid #ffffff" }}/>
                     </div>
+
+                    <div className="collOptItem mx-3" style={{display: "inline-block", width: 40, height: 100, verticalAlign: "middle"}} onClick={() => this.handleCollageOption(4)}>
+                        <FourPicCollage 
+                        className1="collage4Float"
+                        className2="collage4Float"
+                        className3="collage4Float"
+                        className4="collage4Float"
+                        img1Style= {{height: "100%", width: "100%", border: "2px solid #ffffff"}}
+                        img2Style= {{height: "100%", width: "100%", border: "2px solid #ffffff" }}
+                        img3Style= {{height: "100%", width: "100%", border: "2px solid #ffffff" }}
+                        img4Style= {{ height: "100%", width: "100%",border: "2px solid #ffffff" }}/>
+                    </div>
+
+                    <div className="collOptItem mx-3" style={{display: "inline-block", width: 40, height: 100, verticalAlign: "middle"}} onClick={() => this.handleCollageOption(5)}>
+                        <FivePicCollage
+                        imgDivStyle1={{height: "30%", width: "50%", float: "left"}}
+                        imgDivStyle2={{height: "30%", width: "50%", float: "left"}}
+                        imgDivStyle3={{height: "40%", width: "100%", float: "left"}}
+                        imgDivStyle4={{height: "30%", width: "50%", float: "left"}}
+                        imgDivStyle5={{height: "30%", width: "50%", float: "left"}}
+                        img1Style= {{height: "100%", width: "100%", border: "2px solid #ffffff"}}
+                        img2Style= {{height: "100%", width: "100%", border: "2px solid #ffffff" }}
+                        img3Style= {{height: "100%", width: "100%", border: "2px solid #ffffff" }}
+                        img4Style= {{ height: "100%", width: "100%",border: "2px solid #ffffff" }}
+                        img5Style= {{ height: "100%", width: "100%",border: "2px solid #ffffff" }}/>
+                        
+                    </div>
                 </div>,
               isLoadingPhoneOptions: false,
               phoneSizeChosen: true,
@@ -154,6 +183,54 @@ class selectBoard extends Component {
                 </div> ,
                 isLoadingEditSection: false });
               break;
+            case (this.state.collageOptionNum === 4):
+                this.setState({ phoneOutlinePortrait: 
+                    <div className="mx-auto mt-5 phoneScreen" style={{width: this.state.size.device.width/2, height: this.state.size.device.height/2, background: "#F3F3F3",  overflow: "hidden"}}> 
+                        <FourPicCollage
+                        onClick1 = {() =>{document.getElementById('fileInput1').click(); this.setState({ clickedPlaceholder: 1})}}
+                        onClick2 = {() =>{document.getElementById('fileInput2').click(); this.setState({ clickedPlaceholder: 2})}}
+                        onClick3 = {() =>{document.getElementById('fileInput3').click(); this.setState({ clickedPlaceholder: 3})}}
+                        onClick4 = {() =>{document.getElementById('fileInput4').click(); this.setState({ clickedPlaceholder: 4})}}
+                        className1= "collage4"
+                        className2= "collage4"
+                        className3= "collage4"
+                        className4= "collage4"
+                        id1="placeholder1"
+                        id2="placeholder2"
+                        id3="placeholder3"
+                        id4="placeholder4"
+                        />
+                </div> ,
+                isLoadingEditSection: false });
+            break;
+            case (this.state.collageOptionNum === 5):
+                this.setState({ phoneOutlinePortrait: 
+                    <div className="mx-auto mt-5 phoneScreen" style={{width: this.state.size.device.width/2, height: this.state.size.device.height/2, background: "#F3F3F3",  overflow: "hidden"}}> 
+                        <FivePicCollage
+                        onClick1 = {() =>{document.getElementById('fileInput1').click(); this.setState({ clickedPlaceholder: 1})}}
+                        onClick2 = {() =>{document.getElementById('fileInput2').click(); this.setState({ clickedPlaceholder: 2})}}
+                        onClick3 = {() =>{document.getElementById('fileInput3').click(); this.setState({ clickedPlaceholder: 3})}}
+                        onClick4 = {() =>{document.getElementById('fileInput4').click(); this.setState({ clickedPlaceholder: 4})}}
+                        onClick5 = {() =>{document.getElementById('fileInput5').click(); this.setState({ clickedPlaceholder: 5})}}
+                        imgDivStyle1={{height: "30%", width: "50%", float: "left", cursor: "pointer", border: "3px solid #ffffff",
+                        overflow: "hidden"}}
+                        imgDivStyle2={{height: "30%", width: "50%", float: "left", cursor: "pointer", border: "3px solid #ffffff",
+                        overflow: "hidden"}}
+                        imgDivStyle3={{height: "40%", width: "100%", float: "left", cursor: "pointer", border: "3px solid #ffffff",
+                        overflow: "hidden"}}
+                        imgDivStyle4={{height: "30%", width: "50%", float: "left", cursor: "pointer", border: "3px solid #ffffff",
+                        overflow: "hidden"}}
+                        imgDivStyle5={{height: "30%", width: "50%", float: "left", cursor: "pointer", border: "3px solid #ffffff",
+                        overflow: "hidden"}}
+                        id1="placeholder1"
+                        id2="placeholder2"
+                        id3="placeholder3"
+                        id4="placeholder4"
+                        id5="placeholder5"
+                        />
+                </div> ,
+                isLoadingEditSection: false });
+            break;
             default:
               return;
           }
@@ -336,6 +413,12 @@ class selectBoard extends Component {
                         onChange={this.selectImgFile}
                         accept="image/*" style={{display: "none"}}/>
                         <input id="fileInput3" className="form-control text-center" type="file"
+                        onChange={this.selectImgFile}
+                        accept="image/*" style={{display: "none"}}/>
+                        <input id="fileInput4" className="form-control text-center" type="file"
+                        onChange={this.selectImgFile}
+                        accept="image/*" style={{display: "none"}}/>
+                        <input id="fileInput5" className="form-control text-center" type="file"
                         onChange={this.selectImgFile}
                         accept="image/*" style={{display: "none"}}/>
                     </div> 
