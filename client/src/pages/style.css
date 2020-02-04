@@ -50,6 +50,7 @@ html {
 
 .collOptItem:hover {
     cursor: pointer;
+    border: 5px solid #3479ce !important;
 }
 
 
