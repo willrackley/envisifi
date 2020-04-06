@@ -53,4 +53,14 @@ html {
     border: 5px solid #3479ce !important;
 }
 
+.blink {
+    animation: blinker 1s step-start infinite;
+}
+
+@keyframes blinker {
+    50% {
+      opacity: 0;
+    }
+  }
+
 

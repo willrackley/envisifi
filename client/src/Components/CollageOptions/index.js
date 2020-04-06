@@ -12,6 +12,7 @@ export function TwoPicCollage (props) {
             <div className={props.className2} style={props.imgDivStyle2} onDoubleClick={props.onClick2} >
                 <img id={props.id2} style={props.img2Style} src='http://www.eco-trailer.co.uk/wp-content/uploads/2016/03/placeholder-blank.jpg' alt="placeholder"/>
             </div>
+            
         </span>
     ) 
 }

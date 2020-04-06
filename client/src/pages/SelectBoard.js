@@ -15,12 +15,13 @@ import html2canvas from 'html2canvas';
 import "./style.css";
 
 
+
 class selectBoard extends Component {
 
     scrollRef = React.createRef();
 
     state = {
-        deviceTypeButtonDiv: "PHONE",
+        deviceTypeButtonDiv: "iphoneTypes",
         editSection: "none",
         phoneOutlinePortrait: <div></div>,
         placeHolder1Style: { backgroundImage:  "url('http://www.eco-trailer.co.uk/wp-content/uploads/2016/03/placeholder-blank.jpg')"},
@@ -28,12 +29,19 @@ class selectBoard extends Component {
         clickedPlaceholder: 0,
         size: null,
         phoneSizeChosen: false,
+        phoneSize: "null",
         base64Download: "",
         isLoadingPhoneOptions: false,
         isLoadingEditSection: false,
+        isLoadingDoneButton: false,
         editSectionDisplay: "none",
         collageType: <div></div>,
-        collageOptionNum: 2
+        collageOptionNum: 2,
+        beginHelperText: <div className="text-center text-white blink" style={{ }}>
+        DOUBLE TAP TO BEGIN
+        </div>,
+        readyToDownload: false,
+        imgSelected: false
     }
     
     
@@ -48,45 +56,48 @@ class selectBoard extends Component {
       }
 
     selectImgFile = event => {
-
+        this.setState({readyToDownload: false})
         const file = event.target.files[0];
         
-        for (let i=1; i <= 5; i++) {
+        for (let i=1; i <= 6; i++) {
            
             if (this.state.clickedPlaceholder === i) {
                 const reader = new FileReader();
                 
                 reader.addEventListener("load", () => {
                     // remove any cropper if user decides to change image
-                    
 
                     document.getElementById(`placeholder${i}`).src = reader.result;
                     let cropper = new Cropper(document.getElementById(`placeholder${i}`), {dragMode: "move", guides: false, background: false, viewMode: 0, autoCropArea: 0, cropBoxResizable: false,cropBoxMovable: false, autoCrop: true, modal: false, center: false, highlight: false })
                     cropper.replace(document.getElementById(`placeholder${i}`).src)
-              
+                    this.setState({ imgSelected: true })
                 }, false);
                 reader.readAsDataURL(file);
             }
-        } 
+        }
+
     }
 
     handleDeviceEditSection = async (device, width, height) => {
 
-        await this.setState({size: { device: {device: device, width: width, height: height} }, phoneOutlinePortrait: <div></div>, isLoadingPhoneOptions: true,phoneSizeChosen: false, editSectionDisplay: "none", collageOptionNum: 2});
+        await this.setState({size: { device: {device: device, width: width, height: height} }, phoneOutlinePortrait: <div></div>, isLoadingPhoneOptions: true,phoneSizeChosen: false, editSectionDisplay: "none", collageOptionNum: 2, phoneSize: `iPhone ${device}` });
 
         await new Promise((resolve, reject) => setTimeout(resolve, 500));
 
         if (this.state.deviceTypeButtonDiv !== "PHONE"){
             this.setState({ phoneOutlinePortrait: 
-                <div className="mx-auto mt-5 phoneScreen" style={{width: this.state.size.device.width/2, height: this.state.size.device.height/2, background: "#F3F3F3",  overflow: "hidden"}}> 
+                <div className="mx-auto mt-2 mb-5 phoneScreen" style={{width: this.state.size.device.width/2, height: this.state.size.device.height/2,  overflow: "hidden"}}> 
+        
                     <TwoPicCollage
-                    onClick1 = {() =>{document.getElementById('fileInput1').click(); this.setState({ clickedPlaceholder: 1})}}
-                    onClick2 = {() =>{document.getElementById('fileInput2').click(); this.setState({ clickedPlaceholder: 2})}}
+                    onClick1 = {() =>{document.getElementById('fileInput1').click(); this.setState({ clickedPlaceholder: 1, beginHelperText: ""})}}
+                    onClick2 = {() =>{document.getElementById('fileInput2').click(); this.setState({ clickedPlaceholder: 2, beginHelperText: ""})}}
                     id1="placeholder1"
                     id2="placeholder2"
                     className1= "collage2"
                     className2= "collage2"
                     />
+
+                    
               </div>,
               collageType:
               //----- collage options -----//
@@ -165,17 +176,17 @@ class selectBoard extends Component {
 
     handleCollageOption = async (collageNum) => {
         
-        await this.setState({ collageOptionNum: collageNum, isLoadingEditSection: true});
+        await this.setState({ collageOptionNum: collageNum, isLoadingEditSection: true, imgSelected: false, readyToDownload: false});
 
         await new Promise((resolve, reject) => setTimeout(resolve, 500));
         
         switch(this.state.collageOptionNum > 1) {
             case (this.state.collageOptionNum === 2):
                 this.setState({ phoneOutlinePortrait: 
-                    <div className="mx-auto mt-5 phoneScreen" style={{width: this.state.size.device.width/2, height: this.state.size.device.height/2, background: "#F3F3F3",  overflow: "hidden"}}> 
+                    <div className="mx-auto mt-2 mb-5 phoneScreen" style={{width: this.state.size.device.width/2, height: this.state.size.device.height/2, background: "#F3F3F3",  overflow: "hidden"}}> 
                         <TwoPicCollage
-                        onClick1 = {() =>{document.getElementById('fileInput1').click(); this.setState({ clickedPlaceholder: 1})}}
-                        onClick2 = {() =>{document.getElementById('fileInput2').click(); this.setState({ clickedPlaceholder: 2})}}
+                        onClick1 = {() =>{document.getElementById('fileInput1').click(); this.setState({ clickedPlaceholder: 1,beginHelperText: ""})}}
+                        onClick2 = {() =>{document.getElementById('fileInput2').click(); this.setState({ clickedPlaceholder: 2,beginHelperText: ""})}}
                         className1= "collage2"
                         className2= "collage2"
                         id1="placeholder1"
@@ -186,11 +197,11 @@ class selectBoard extends Component {
               break;
             case (this.state.collageOptionNum === 3):
                 this.setState({ phoneOutlinePortrait: 
-                    <div className="mx-auto mt-5 phoneScreen" style={{width: this.state.size.device.width/2, height: this.state.size.device.height/2, background: "#F3F3F3",  overflow: "hidden"}}> 
+                    <div className="mx-auto mt-2 mb-5 phoneScreen" style={{width: this.state.size.device.width/2, height: this.state.size.device.height/2, background: "#F3F3F3",  overflow: "hidden"}}> 
                         <ThreePicCollage
-                        onClick1 = {() =>{document.getElementById('fileInput1').click(); this.setState({ clickedPlaceholder: 1})}}
-                        onClick2 = {() =>{document.getElementById('fileInput2').click(); this.setState({ clickedPlaceholder: 2})}}
-                        onClick3 = {() =>{document.getElementById('fileInput3').click(); this.setState({ clickedPlaceholder: 3})}}
+                        onClick1 = {() =>{document.getElementById('fileInput1').click(); this.setState({ clickedPlaceholder: 1,beginHelperText: ""})}}
+                        onClick2 = {() =>{document.getElementById('fileInput2').click(); this.setState({ clickedPlaceholder: 2,beginHelperText: ""})}}
+                        onClick3 = {() =>{document.getElementById('fileInput3').click(); this.setState({ clickedPlaceholder: 3,beginHelperText: ""})}}
                         className1= "collage3"
                         className2= "collage3"
                         className3= "collage3 border-bottom-0"
@@ -203,12 +214,12 @@ class selectBoard extends Component {
               break;
             case (this.state.collageOptionNum === 4):
                 this.setState({ phoneOutlinePortrait: 
-                    <div className="mx-auto mt-5 phoneScreen" style={{width: this.state.size.device.width/2, height: this.state.size.device.height/2, background: "#F3F3F3",  overflow: "hidden"}}> 
+                    <div className="mx-auto mt-2 mb-5 phoneScreen" style={{width: this.state.size.device.width/2, height: this.state.size.device.height/2, background: "#F3F3F3",  overflow: "hidden"}}> 
                         <FourPicCollage
-                        onClick1 = {() =>{document.getElementById('fileInput1').click(); this.setState({ clickedPlaceholder: 1})}}
-                        onClick2 = {() =>{document.getElementById('fileInput2').click(); this.setState({ clickedPlaceholder: 2})}}
-                        onClick3 = {() =>{document.getElementById('fileInput3').click(); this.setState({ clickedPlaceholder: 3})}}
-                        onClick4 = {() =>{document.getElementById('fileInput4').click(); this.setState({ clickedPlaceholder: 4})}}
+                        onClick1 = {() =>{document.getElementById('fileInput1').click(); this.setState({ clickedPlaceholder: 1,beginHelperText: ""})}}
+                        onClick2 = {() =>{document.getElementById('fileInput2').click(); this.setState({ clickedPlaceholder: 2,beginHelperText: ""})}}
+                        onClick3 = {() =>{document.getElementById('fileInput3').click(); this.setState({ clickedPlaceholder: 3,beginHelperText: ""})}}
+                        onClick4 = {() =>{document.getElementById('fileInput4').click(); this.setState({ clickedPlaceholder: 4,beginHelperText: ""})}}
                         className1= "collage4"
                         className2= "collage4"
                         className3= "collage4"
@@ -223,13 +234,13 @@ class selectBoard extends Component {
             break;
             case (this.state.collageOptionNum === 5):
                 this.setState({ phoneOutlinePortrait: 
-                    <div className="mx-auto mt-5 phoneScreen" style={{width: this.state.size.device.width/2, height: this.state.size.device.height/2, background: "#F3F3F3",  overflow: "hidden"}}> 
+                    <div className="mx-auto mt-2 mb-5 phoneScreen" style={{width: this.state.size.device.width/2, height: this.state.size.device.height/2, background: "#F3F3F3",  overflow: "hidden"}}> 
                         <FivePicCollage
-                        onClick1 = {() =>{document.getElementById('fileInput1').click(); this.setState({ clickedPlaceholder: 1})}}
-                        onClick2 = {() =>{document.getElementById('fileInput2').click(); this.setState({ clickedPlaceholder: 2})}}
-                        onClick3 = {() =>{document.getElementById('fileInput3').click(); this.setState({ clickedPlaceholder: 3})}}
-                        onClick4 = {() =>{document.getElementById('fileInput4').click(); this.setState({ clickedPlaceholder: 4})}}
-                        onClick5 = {() =>{document.getElementById('fileInput5').click(); this.setState({ clickedPlaceholder: 5})}}
+                        onClick1 = {() =>{document.getElementById('fileInput1').click(); this.setState({ clickedPlaceholder: 1,beginHelperText: ""})}}
+                        onClick2 = {() =>{document.getElementById('fileInput2').click(); this.setState({ clickedPlaceholder: 2,beginHelperText: ""})}}
+                        onClick3 = {() =>{document.getElementById('fileInput3').click(); this.setState({ clickedPlaceholder: 3,beginHelperText: ""})}}
+                        onClick4 = {() =>{document.getElementById('fileInput4').click(); this.setState({ clickedPlaceholder: 4,beginHelperText: ""})}}
+                        onClick5 = {() =>{document.getElementById('fileInput5').click(); this.setState({ clickedPlaceholder: 5,beginHelperText: ""})}}
                         imgDivStyle1={{height: "30%", width: "50%", float: "left", cursor: "pointer", border: "3px solid #ffffff",
                         overflow: "hidden"}}
                         imgDivStyle2={{height: "30%", width: "50%", float: "left", cursor: "pointer", border: "3px solid #ffffff",
@@ -251,14 +262,14 @@ class selectBoard extends Component {
             break;
             case (this.state.collageOptionNum === 6):
                 this.setState({ phoneOutlinePortrait: 
-                    <div className="mx-auto mt-5 phoneScreen" style={{width: this.state.size.device.width/2, height: this.state.size.device.height/2, background: "#F3F3F3",  overflow: "hidden"}}> 
+                    <div className="mx-auto mt-2 mb-5 phoneScreen" style={{width: this.state.size.device.width/2, height: this.state.size.device.height/2, background: "#F3F3F3",  overflow: "hidden"}}> 
                         <SixPicCollage
-                        onClick1 = {() =>{document.getElementById('fileInput1').click(); this.setState({ clickedPlaceholder: 1})}}
-                        onClick2 = {() =>{document.getElementById('fileInput2').click(); this.setState({ clickedPlaceholder: 2})}}
-                        onClick3 = {() =>{document.getElementById('fileInput3').click(); this.setState({ clickedPlaceholder: 3})}}
-                        onClick4 = {() =>{document.getElementById('fileInput4').click(); this.setState({ clickedPlaceholder: 4})}}
-                        onClick5 = {() =>{document.getElementById('fileInput5').click(); this.setState({ clickedPlaceholder: 5})}}
-                        onClick6 = {() =>{document.getElementById('fileInput6').click(); this.setState({ clickedPlaceholder: 5})}}
+                        onClick1 = {() =>{document.getElementById('fileInput1').click(); this.setState({ clickedPlaceholder: 1,beginHelperText: ""})}}
+                        onClick2 = {() =>{document.getElementById('fileInput2').click(); this.setState({ clickedPlaceholder: 2,beginHelperText: ""})}}
+                        onClick3 = {() =>{document.getElementById('fileInput3').click(); this.setState({ clickedPlaceholder: 3,beginHelperText: ""})}}
+                        onClick4 = {() =>{document.getElementById('fileInput4').click(); this.setState({ clickedPlaceholder: 4,beginHelperText: ""})}}
+                        onClick5 = {() =>{document.getElementById('fileInput5').click(); this.setState({ clickedPlaceholder: 5,beginHelperText: ""})}}
+                        onClick6 = {() =>{document.getElementById('fileInput6').click(); this.setState({ clickedPlaceholder: 6,beginHelperText: ""})}}
                         imgDivStyle1={{height: "33%", width: "50%", float: "left", cursor: "pointer", border: "3px solid #ffffff",
                         overflow: "hidden"}}
                         imgDivStyle2={{height: "33%", width: "50%", float: "left", cursor: "pointer", border: "3px solid #ffffff",
@@ -292,9 +303,11 @@ class selectBoard extends Component {
         let deviceHeight = this.state.size.device.height;
         let deviceWidth = this.state.size.device.width;
 
+        this.setState({ isLoadingDoneButton: true })
+
         await html2canvas(document.getElementsByClassName('phoneScreen')[0], {height: this.state.size.device.height/2, scrollX: 0, scrollY: -window.scrollY}).then(function(canvas) {
        
-            document.getElementsByClassName('screenshotSec')[0].appendChild(canvas);
+            //document.getElementsByClassName('screenshotSec')[0].appendChild(canvas);
 
             base64URL = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
 
@@ -302,8 +315,8 @@ class selectBoard extends Component {
             img.src = base64URL;
             img.height = deviceHeight;
             img.width = deviceWidth;
-            img.classList.add('increasedSize')
-            document.getElementsByClassName('largePic')[0].append(img)
+            // img.classList.add('increasedSize')
+            // document.getElementsByClassName('largePic')[0].append(img)
 
             img.onload = function() {
                 let newCanvas = document.createElement("canvas");
@@ -317,7 +330,7 @@ class selectBoard extends Component {
 
       
        await new Promise((resolve, reject) => setTimeout(resolve, 1000))
-       this.setState({ base64Download: imgdataURL })
+       this.setState({ base64Download: imgdataURL, readyToDownload: true, isLoadingDoneButton: false })
        
     }
 
@@ -326,76 +339,29 @@ class selectBoard extends Component {
     render() {
         let deviceButtons = <div></div>
         let backButton = <div></div>
-        // let initialButtonScreen = 
-        //     <div>
-        //         <div className="text-center"> Where is your vision board going to be seen?</div>
-
-        //         <div className="text-center">
-        //             <Button className="m-2" onClick={() => this.handleDeviceButtonClick("PHONE")}> PHONE <br/><GiSmartphone size="10em"/> </Button>
-        //             {/* <Button className="m-2"> TABLET<br/> <GiTablet size="10em"/> </Button>
-        //             <Button className="m-2"> COMPUTER <br/> <GiPc size="10em"/> </Button> */}
-        //         </div>
-        //     </div>;
-
+      
         //------choice screen for choosing device brand------//
         if (this.state.deviceTypeButtonDiv === "deviceType"){
             //deviceButtons = initialButtonScreen
-        } else if (this.state.deviceTypeButtonDiv === "PHONE") {
-            
-            deviceButtons = <div className=" mx-auto" >
-                                 <div className="text-center jumbotron_text mb-5"> <h1>What type of phone do you have?</h1></div>
-
-                                 <div className="row text-center w-75 mx-auto" >
-                                    <div className="col-md-4" style={{}}>
-                                        <Button 
-                                        variant="none" 
-                                        className="m-2 buttonLogo" 
-                                        style={{ width: "200px", height: "200px",backgroundImage: "url(https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg)", backgroundPosition: "center", backgroundSize: "contain", backgroundRepeat: "no-repeat", filter: "invert(1)"}} 
-                                        onClick={() => this.handleDeviceButtonClick("iphoneTypes")}>
-                                            <span className="iphoneText">iphone</span>
-                                        </Button>
-                                    </div>
-                                    
-                                    <div className="col-md-4">
-                                        <Button 
-                                        variant="none" 
-                                        className="m-2 buttonLogo" 
-                                        style={{width: "200px", height: "200px", backgroundImage: "url(http://pngimg.com/uploads/samsung_logo/samsung_logo_PNG16.png)", backgroundPosition: "center", backgroundSize: "contain", backgroundRepeat: "no-repeat", filter: "invert(1)"}}>
-                                            <div className="samsungText">samsung</div>
-                                        </Button>
-                                    </div>
-
-                                    <div className="col-md-4">
-                                        <Button 
-                                        variant="none" 
-                                        className="m-2 buttonLogo" 
-                                        style={{width: "200px", height: "200px", backgroundImage: "url(http://pngimg.com/uploads/lg_logo/lg_logo_PNG3.png)", backgroundPosition: "center", backgroundSize: "contain", backgroundRepeat: "no-repeat", filter: "invert(1)"}}>
-                                            <div className="samsungText">LG</div>
-                                        </Button>
-                                    </div>
-                                </div>
-                            </div>
-        } else if (this.state.deviceTypeButtonDiv === "iphoneTypes") {
-            
+        } else if (this.state.deviceTypeButtonDiv === "iphoneTypes") { 
             //-----button display of phone types-----//
 
-            backButton = 
-                <Button 
-                className="mb-2"
-                variant="none"
-                onClick={() => this.handleDeviceButtonClick("PHONE")}
-                >
-                    <MdArrowBack
-                    size="60"
-                    style={{
-                        color: "#ffffff",
-                        border: "3px solid #ffffff",
-                        borderRadius: "50px",
-                        padding: "10px",
-                    }}
-                    />
-
-                </Button>;
+            // backButton = 
+            //     <Button 
+            //     className="mb-2"
+            //     variant="none"
+            //     onClick={() => this.handleDeviceButtonClick("PHONE")}
+            //     >
+            //     <MdArrowBack
+            //     size="60"
+            //     style={{
+            //         color: "#ffffff",
+            //         border: "3px solid #ffffff",
+            //         borderRadius: "50px",
+            //         padding: "10px",
+            //     }}
+            //     />
+            //     </Button>;
 
             if(this.state.isLoadingPhoneOptions){
                 deviceButtons = 
@@ -453,6 +419,15 @@ class selectBoard extends Component {
                     <div className="px-5">
                         {this.state.collageType}    
                     </div>
+
+                    <div className=" mt-5 h3 text-center text-white">
+                        {this.state.phoneSize}
+                    </div>
+
+                    <div className="text-center text-light">
+                        {this.state.beginHelperText}
+                    </div>
+                   
                     {this.state.isLoadingEditSection ? <div className="mx-auto d-flex justify-content-center  mt-5"><Spinner style={{width: "8rem", height: "8rem"}} variant="primary" animation="border" /></div> : this.state.phoneOutlinePortrait}
                        
                     <div className="form-group">
@@ -475,11 +450,46 @@ class selectBoard extends Component {
                         onChange={this.selectImgFile}
                         accept="image/*" style={{display: "none"}}/>
                     </div> 
-                            
-                    <Button onClick={() => {this.screenshot()}}>Done</Button>
 
-                    <a href={this.state.base64Download} download="newBoard.png"   >Download</a>
+                    {this.state.imgSelected && this.state.readyToDownload ?  <div className="text-center mb-5">  
+                        <div>
+                        <Button variant="warning">
+                            <a href={this.state.base64Download} className="text-decoration-none" download="newBoard.png">Download</a>
+                        </Button>
+                        </div></div> : 
+                        <div/>
+                    }
+
+                    {this.state.imgSelected && !this.state.readyToDownload ?  <div className="text-center mb-5">  
+                        <Button variant="warning" onClick={() => {this.screenshot()}}>
+                                {this.state.isLoadingDoneButton ? <div className="mx-auto d-flex justify-content-center "><Spinner  variant="primary" animation="border" /></div> : <div>Done</div> }
+                            </Button></div> : 
+                        <div/>
+                    }
+
+
+
+                    {/* <div className="text-center mb-5">
                         
+                        {this.state.imgSelected ? 
+                        <div>
+                            <Button variant="warning" onClick={() => {this.screenshot()}}>
+                                {this.state.isLoadingDoneButton ? <div className="mx-auto d-flex justify-content-center "><Spinner  variant="primary" animation="border" /></div> : <div>Done</div> }
+                            </Button>
+                        </div> :
+                        <div className="mb-5" />
+                        }
+
+                        
+                        {this.state.readyToDownload ? 
+                            <div>
+                                <a href={this.state.base64Download} download="newBoard.png">Download</a>
+                            </div>:
+                            <div/>
+                        }
+                        
+                    </div>       */}
+                    
                     <div>
                         <div className="screenshotSec"></div>
                     </div>
