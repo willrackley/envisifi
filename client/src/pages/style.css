@@ -17,6 +17,7 @@ html {
 
 .navbar_title {
     color: rgb(241, 151, 54) !important;
+    font-size: 36px;
 }
 
 #selectBoardJumbotron {
@@ -25,8 +26,21 @@ html {
     background-size: cover !important;
 }
 
+#landingPageJumbotron {
+    background-image: url("../images/phoneToss.png") !important;
+    /* background-repeat: no-repeat !important; */
+    /* //background-size: cover !important; */
+    height: 1000px;
+}
+
 .deviceButtons {
     width: 500px;
+    height: 100%;
+    /* border: 2px solid rgba(255, 255, 255, 0.481); */
+    background: rgba(255, 255, 255, 0.214);
+    border-radius: 10px;
+    overflow-y: scroll;
+    
 }
 
 .buttonLogo:hover {
@@ -57,10 +71,30 @@ html {
     animation: blinker 1s step-start infinite;
 }
 
+@media screen and (max-width: 425px){
+    .deviceButtons {
+        max-height: 350px;
+        width: 100%;
+    }
+
+    #collageOptionDiv {
+        height: 140px;
+        overflow-x: scroll;
+        overflow-y: hidden;
+        white-space: nowrap;
+        background: #ffffff64;
+    }
+
+    /* .collOptItem {
+        display: block !important;
+    } */
+}
+
 @keyframes blinker {
     50% {
       opacity: 0;
     }
   }
+
 
 

@@ -101,9 +101,7 @@ class selectBoard extends Component {
                     id2="placeholder2"
                     className1= "collage2"
                     className2= "collage2"
-                    />
-
-                    
+                    />        
               </div>,
               collageType:
               //----- collage options -----//
@@ -345,15 +343,15 @@ class selectBoard extends Component {
                 deviceButtons = 
                 <span className="text-center mb-5">
                     <div>
-                        <h1 className="text-white mb-5">What type of iphone do you have?</h1>
+                        <h1 className="text-white mb-5">What type of iPhone do you have?</h1>
                     </div>
-                    <div className="mx-auto d-flex justify-content-center deviceButtons"><Spinner style={{width: "8rem", height: "8rem"}} variant="primary" animation="border" /></div>
+                    <div className="mx-auto d-flex justify-content-center deviceButtons p-5" style={{ background: "none" }}><Spinner style={{width: "45px", height: "45px"}} variant="primary" animation="border" /></div>
                 </span>
             } else {
                 deviceButtons = 
                 <span className="text-center">
-                    <div><h1 className="text-white">What type of iphone do you have? </h1></div>
-                    <div className="text-center deviceButtons p-5 mx-auto"  style={{width: "50%"}}>
+                    <div><h1 className="text-white">What type of iPhone do you have? </h1></div>
+                    <div className="text-center deviceButtons mt-5  p-3 mx-auto"  style={{width: "50%"}}>
                         <ButtonDisplay 
                         mapped_phone_types={iphoneTypes}
                         handleButtonList={this.handleDeviceEditSection}
@@ -366,7 +364,7 @@ class selectBoard extends Component {
         return (
             <div>
                 <Navbar className="nav" bg="light" expand="lg">
-                    <Navbar.Brand className="navbar_title" href="/">Envisifi</Navbar.Brand>
+                    <Navbar.Brand className="navbar_title text-center w-100" href="/">Envisifi</Navbar.Brand>
                         {/* <Navbar.Toggle aria-controls="basic-navbar-nav" />
                         <Navbar.Collapse id="basic-navbar-nav">
                             <Nav className="mr-auto">
@@ -388,12 +386,12 @@ class selectBoard extends Component {
                 </Jumbotron>
 
                 {/* section for editting images and choosing collage option */}
-                <div ref={this.scrollRef} className="editSection" style={{display: this.state.editSectionDisplay}}>
-                    <div className="px-5">
+                <div className="editSection" style={{display: this.state.editSectionDisplay}}>
+                    <div ref={this.scrollRef} className="px-5 pt-5">
                         {this.state.collageType}    
                     </div>
 
-                    <div className=" mt-5 h3 text-center text-white">
+                    <div  className=" mt-5 h3 text-center text-white">
                         {this.state.phoneSize}
                     </div>
 

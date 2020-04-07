@@ -2,9 +2,10 @@ import React from "react";
 import Button from "react-bootstrap/Button"
 import "./style.css"
 
+//shows list of ihpone types
 export default function ButtonDisplay (props) {
     return (
-        <div>
+        <div className="buttonTypeContainer">
             {props.mapped_phone_types.map(buttonList => (
                 <span key={buttonList.device}>
                     <Button 
