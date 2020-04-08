@@ -2,10 +2,21 @@ html {
     scroll-behavior: smooth;
 }
 
+#wrapper {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    justify-content: space-between
+}
+
+.footer {
+    color: #3479ce;
+    border-top: 2px solid rgb(241, 151, 54);
+}
+
 .lpText {
     font-family: 'Noto Sans', sans-serif;
     color: #fff;
- 
 }
 
 #getStartedBtn {
@@ -20,6 +31,7 @@ html {
 .navbar_title {
     color: rgb(241, 151, 54) !important;
     font-size: 36px;
+    position:relative;
 }
 
 #selectBoardJumbotron {
@@ -38,11 +50,9 @@ html {
 .deviceButtons {
     width: 500px;
     height: 100%;
-    /* border: 2px solid rgba(255, 255, 255, 0.481); */
     background: rgba(255, 255, 255, 0.214);
     border-radius: 10px;
     overflow-y: scroll;
-    
 }
 
 .buttonLogo:hover {
@@ -73,7 +83,6 @@ html {
     animation: blinker 1s step-start infinite;
 }
 
-
 @media screen and (max-width: 425px){
     .deviceButtons {
         max-height: 350px;
@@ -87,10 +96,6 @@ html {
         white-space: nowrap;
         background: #ffffff64;
     }
-
-    /* .collOptItem {
-        display: block !important;
-    } */
 }
 
 @keyframes blinker {
