@@ -2,12 +2,14 @@ html {
     scroll-behavior: smooth;
 }
 
-.samsungText {
-    opacity: 0;  
+.lpText {
+    font-family: 'Noto Sans', sans-serif;
+    color: #fff;
+ 
 }
 
-.iphoneText {
-    opacity: 0; 
+#getStartedBtn {
+    font-size: 24px !important;
 }
 
 .jumbotron_text {
@@ -27,10 +29,10 @@ html {
 }
 
 #landingPageJumbotron {
-    background-image: url("../images/phoneToss.png") !important;
-    /* background-repeat: no-repeat !important; */
-    /* //background-size: cover !important; */
-    height: 1000px;
+    background-image: url("../images/landingPageImage.png") !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+    height: 500px;
 }
 
 .deviceButtons {
@@ -70,6 +72,7 @@ html {
 .blink {
     animation: blinker 1s step-start infinite;
 }
+
 
 @media screen and (max-width: 425px){
     .deviceButtons {
