@@ -9,7 +9,7 @@ class landingPage extends Component {
         gsButtonClicked: false
     }
 
-    //for toggling to next page
+   
     handleGetStartedButton = () => {
         this.setState({ gsButtonClicked: true });
     }
