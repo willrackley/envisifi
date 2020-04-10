@@ -312,7 +312,7 @@ class selectBoard extends Component {
 
         this.setState({ isLoadingDoneButton: true })
 
-        await html2canvas(document.getElementsByClassName('phoneScreen')[0], {height: this.state.size.device.height/2, scrollX: 0, scrollY: -window.scrollY}).then(function(canvas) {
+        await html2canvas(document.getElementsByClassName('phoneScreen')[0], {height: this.state.size.device.height/2, width: this.state.size.device.width/2, scrollX: 0, scrollY: -window.scrollY}).then(function(canvas) {
 
             base64URL = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
 
