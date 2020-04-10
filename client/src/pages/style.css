@@ -2,6 +2,10 @@ html {
     scroll-behavior: smooth;
 }
 
+#navbar {
+    margin-bottom: 0 !important;
+}
+
 #wrapper {
     display: flex;
     min-height: 100vh;
@@ -45,6 +49,7 @@ html {
     background-repeat: no-repeat !important;
     background-size: cover !important;
     height: 500px;
+    margin-bottom: 0 !important;
 }
 
 .deviceButtons {

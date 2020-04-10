@@ -21,7 +21,7 @@ class landingPage extends Component {
 
         return (
             <div id="wrapper">
-                <Navbar bg="light" expand="lg">
+                <Navbar id="navbar" bg="light" expand="lg">
                     <Navbar.Brand className="navbar_title text-center w-100" href="#home">Envisifi</Navbar.Brand>
                 </Navbar>
 
