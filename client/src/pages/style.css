@@ -84,6 +84,13 @@ html {
 }
 
 @media screen and (max-width: 425px){
+
+    .lpText {
+        font-family: 'Noto Sans', sans-serif;
+        color: #fff;
+        font-size: 44px !important;
+    }
+
     .deviceButtons {
         max-height: 350px;
         width: 100%;

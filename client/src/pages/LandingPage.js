@@ -27,7 +27,7 @@ class landingPage extends Component {
 
                 <Jumbotron id="landingPageJumbotron">
                     <div className="">
-                        <p className="lpText text-center display-4 mt-4">
+                        <p className="lpText text-center display-4 mt-2">
                             Make a collage wallpaper to fit your iPhone perfectly!
                         </p>
                         <div className="text-center mt-5">
