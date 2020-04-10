@@ -40,7 +40,18 @@ class selectBoard extends Component {
         DOUBLE TAP TO BEGIN
         </div>,
         readyToDownload: false,
-        imgSelected: false
+        imgSelected: false,
+        userDevice: "Desktop"
+    }
+
+    componentDidMount() {
+        if (window.innerWidth <= 425) {
+            this.setState({ userDevice: "Phone" });
+        }
+        else {
+            this.setState({ userDevice: "Desktop" });
+        }
+       
     }
     
     //helper to auto scroll to edit section after choosing an iphone type
@@ -312,27 +323,52 @@ class selectBoard extends Component {
 
         this.setState({ isLoadingDoneButton: true })
 
-        await html2canvas(document.getElementsByClassName('phoneScreen')[0], {height: this.state.size.device.height/2, width: this.state.size.device.width/2, scrollX: 0, scrollY: -window.scrollY}).then(function(canvas) {
+        if (this.state.userDevice === "Desktop") {
+            await html2canvas(document.getElementsByClassName('phoneScreen')[0], {height: this.state.size.device.height/2, width: this.state.size.device.width/2, scrollX: 0, scrollY: -window.scrollY}).then(function(canvas) {
 
-            base64URL = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
+                base64URL = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
+    
+                const img = new Image();
+                img.src = base64URL;
+                img.height = deviceHeight;
+                img.width = deviceWidth;
+    
+                img.onload = function() {
+                    let newCanvas = document.createElement("canvas");
+                    newCanvas.width = img.width;
+                    newCanvas.height = img.height;
+                    let ctx = newCanvas.getContext("2d");
+                    ctx.drawImage(img, 0, 0, newCanvas.width, newCanvas.height);
+                    imgdataURL = newCanvas.toDataURL("image/png").replace('image/png', 'image/octet-stream');
+                }
+            });
+    
+           await new Promise((resolve, reject) => setTimeout(resolve, 1000))
+           this.setState({ base64Download: imgdataURL, readyToDownload: true, isLoadingDoneButton: false })
+        } else {
+            await html2canvas(document.getElementsByClassName('phoneScreen')[0], {height: this.state.size.device.height/4, width: this.state.size.device.width/4, scrollX: 0, scrollY: -window.scrollY}).then(function(canvas) {
 
-            const img = new Image();
-            img.src = base64URL;
-            img.height = deviceHeight;
-            img.width = deviceWidth;
-
-            img.onload = function() {
-                let newCanvas = document.createElement("canvas");
-                newCanvas.width = img.width;
-                newCanvas.height = img.height;
-                let ctx = newCanvas.getContext("2d");
-                ctx.drawImage(img, 0, 0, newCanvas.width, newCanvas.height);
-                imgdataURL = newCanvas.toDataURL("image/png").replace('image/png', 'image/octet-stream');
-            }
-        });
-
-       await new Promise((resolve, reject) => setTimeout(resolve, 1000))
-       this.setState({ base64Download: imgdataURL, readyToDownload: true, isLoadingDoneButton: false })
+                base64URL = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
+    
+                const img = new Image();
+                img.src = base64URL;
+                img.height = deviceHeight;
+                img.width = deviceWidth;
+    
+                img.onload = function() {
+                    let newCanvas = document.createElement("canvas");
+                    newCanvas.width = img.width;
+                    newCanvas.height = img.height;
+                    let ctx = newCanvas.getContext("2d");
+                    ctx.drawImage(img, 0, 0, newCanvas.width, newCanvas.height);
+                    imgdataURL = newCanvas.toDataURL("image/png").replace('image/png', 'image/octet-stream');
+                }
+            });
+    
+           await new Promise((resolve, reject) => setTimeout(resolve, 1000))
+           this.setState({ base64Download: imgdataURL, readyToDownload: true, isLoadingDoneButton: false })
+        }
+       
     }
 
     render() {
