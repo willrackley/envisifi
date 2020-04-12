@@ -16,6 +16,8 @@ html {
 .footer {
     color: #3479ce;
     border-top: 2px solid rgb(241, 151, 54);
+    margin-top: 50px;
+    max-height: 20px ;
 }
 
 .lpText {
@@ -51,7 +53,11 @@ html {
     height: 500px;
     width: 100%;
     margin-top: 0 !important;
-    margin-bottom: 40px;
+    /* //margin-bottom: 100px; */
+}
+
+.deviceBtnSpinner {
+    margin-bottom: 200px;
 }
 
 .deviceButtons {

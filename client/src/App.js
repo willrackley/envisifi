@@ -11,6 +11,8 @@ function App() {
         <Switch>
           <Route exact path="/" component={landingPage} />
           <Route exact path="/selectBoard" component={selectBoard} />
+          {/* send to landing page if user types incorrect route */}
+          <Route  component={landingPage} />
         </Switch>
     </Router>
   );

@@ -381,7 +381,7 @@ class selectBoard extends Component {
                     <div>
                         <h1 className="text-white mb-5">What type of iPhone do you have?</h1>
                     </div>
-                    <div className="mx-auto d-flex justify-content-center deviceButtons p-5" style={{ background: "none" }}><Spinner style={{width: "45px", height: "45px"}} variant="primary" animation="border" /></div>
+                    <div className="mx-auto d-flex justify-content-center deviceButtons p-5 deviceBtnSpinner" style={{ background: "none" }}><Spinner style={{width: "45px", height: "45px"}} variant="primary" animation="border" /></div>
                 </span>
             } else {
                 deviceButtons = 
